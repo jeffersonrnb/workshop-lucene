@@ -42,10 +42,10 @@ public class Exercicio01 {
     IndexWriter w = new IndexWriter(indexDirectory, config);
 
     // Adiciona 4 documentos.
-    addDoc(w, "Lucene in Action"); 
-    addDoc(w, "Lucene for Dummies");
-    addDoc(w, "Managing Gigabytes");
-    addDoc(w, "The Art of Computer Science");
+    addDoc(w, "Cachorro come ração"); 
+    addDoc(w, "Gato é um animal");
+    addDoc(w, "Eu amo cachorro");
+    addDoc(w, "Peixe vive na água");
 
     // Fecha o arquivo.
     w.close();
