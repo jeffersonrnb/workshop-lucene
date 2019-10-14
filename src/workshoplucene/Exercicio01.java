@@ -42,47 +42,13 @@ public class Exercicio01 {
     IndexWriter w = new IndexWriter(indexDirectory, config);
 
     // Adiciona 4 documentos.
-    addDoc(w, "Lucene in Action"); 
-    addDoc(w, "Lucene for Dummies");
-    addDoc(w, "Managing Gigabytes");
-    addDoc(w, "The Art of Computer Science");
+    addDoc(w, "Estudando Lucene"); 
+    addDoc(w, "Lucene é vida");
+    addDoc(w, "Estudo na UFBA");
+    addDoc(w, "Moro em Salvador");
 
     // Fecha o arquivo.
     w.close();
-        
-    IndexReader reader = DirectoryReader.open(indexDirectory);
-    final List<IndexableField> fields = reader.document(0).getFields();
-
-    for (int i = 0; i < fields.size(); i++) {
-        final IndexableField field = fields.get(i);
-        final Terms terms = MultiTerms.getTerms(reader, field.name());
-        final TermsEnum it = terms.iterator();
-        BytesRef term = it.next();
-        while (term != null) {
-            Term termInstance = new Term(field.name(), term);
-            long indexDf = reader.docFreq(termInstance);
-            
-            int hitsPerPage = 10;
-            DirectoryReader directoryReader = DirectoryReader.open(indexDirectory);
-            IndexSearcher searcher = new IndexSearcher(directoryReader);
-            TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, 20);
-            Query q = new QueryParser("title", analyzer).parse(term.utf8ToString());
-            searcher.search(q, collector);
-            ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
-            // 4. display results
-            String str = "";
-            for(int j=0;j<hits.length;++j) {
-              int docId = hits[j].doc;
-              Document d = searcher.doc(docId);
-              str += str.isEmpty() ? docId : ", " + docId;
-            }
-            
-            System.out.println("Termo '" + term.utf8ToString() + "' encontrado no(s) documento(s): [" + str + "]");
-            
-            term = it.next();
-        }
-    }
   }
   
     private static void addDoc(IndexWriter w, String text) throws IOException {
